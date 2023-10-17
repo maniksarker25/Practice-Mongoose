@@ -9,7 +9,9 @@ const createProduct = async(req,res)=>{
         })
         
         const result = await newProduct.save();
-        res.status(200).send(result)
+        if(result){
+            res.status(200).send({message:"Product added successfully ",result})
+        }
         
     } catch (error) {
         res.status(404).send({message:error.message})
@@ -31,5 +33,22 @@ const getAllProduct = async(req,res)=>{
     }
 }
 
+const getSpecificProduct = async(req,res)=>{
+    try {
+        const id = req.params.id;
+        const product = await Product.findOne({_id:id});
+        if(product){
+            res.status(200).send(product)
+        }
 
-module.exports = {createProduct,getAllProduct};
+        else{
+            res.status(500).send({message:"Product is not found"})
+        }
+
+    } catch (error) {
+        res.status(404).send({message:error.message})
+    }
+}
+
+
+module.exports = {createProduct,getAllProduct,getSpecificProduct};
