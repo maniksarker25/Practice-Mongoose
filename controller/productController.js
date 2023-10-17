@@ -16,5 +16,20 @@ const createProduct = async(req,res)=>{
     }
 }
 
+const getAllProduct = async(req,res)=>{
+    try {
+        const products = await Product.find();
+        if(products){
+            res.status(200).send(products)
+        }
+        else{
+            res.status(400).send({message:"product not found"})
+        }
 
-module.exports = {createProduct};
+    } catch (error) {
+        res.status(500).send({message:error.message})
+    }
+}
+
+
+module.exports = {createProduct,getAllProduct};
