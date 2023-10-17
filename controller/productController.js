@@ -20,7 +20,8 @@ const createProduct = async(req,res)=>{
 
 const getAllProduct = async(req,res)=>{
     try {
-        const products = await Product.find();
+        // here use comparison operator
+        const products = await Product.find({price:{$lt: 40000}});
         if(products){
             res.status(200).send(products)
         }
@@ -37,6 +38,9 @@ const getSpecificProduct = async(req,res)=>{
     try {
         const id = req.params.id;
         const product = await Product.findOne({_id:id});
+        
+        // if you want to see just title you can use select method-----------
+        // const product = await Product.findOne({_id:id}).select({name:1,_id:0});
         if(product){
             res.status(200).send(product)
         }
